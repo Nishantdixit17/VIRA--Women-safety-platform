@@ -1,0 +1,17 @@
+{
+  "name": "Vira — Predictive Safety Intelligence Platform",
+  "short_name": "Vira Safety",
+  "description": "Don't just detect danger. Predict it. Explain it. Prevent it.",
+  "start_url": "/explore",
+  "display": "standalone",
+  "background_color": "#FFF4F6",
+  "theme_color": "#E64A7B",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

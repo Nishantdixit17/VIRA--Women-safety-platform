@@ -1,0 +1,376 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand-pink: #E64A7B;
+  --danger-red: #D91E3F;
+  --surface-white: #FFFFFF;
+  --bg-blush-light: #FFF4F6;
+  --bg-blush-deep: #FDECEF;
+  --text-ink: #2B1B21;
+  --text-muted: #6F5A62;
+  --border-rose: #F1D4DC;
+}
+
+* {
+  box-sizing: border-box;
+  border-color: var(--border-rose);
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg-blush-light);
+  color: var(--text-ink);
+  font-family: var(--font-inter), Inter, system-ui, -apple-system, sans-serif;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
+}
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+}
+
+/* Mobile: respect notches / home bar, avoid sideways scroll, comfortable tap targets */
+@media (max-width: 640px) {
+  body {
+    overflow-x: hidden;
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  button,
+  a[role="button"],
+  select,
+  input {
+    min-height: 40px;
+  }
+  input,
+  select,
+  textarea {
+    font-size: 16px; /* stops iOS zoom-on-focus */
+  }
+  .leaflet-container {
+    min-height: 300px;
+  }
+}
+
+body {
+  background-color: var(--bg-blush-light);
+  color: var(--text-ink);
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.55;
+}
+
+/* Visible accessible focus rings */
+:focus-visible {
+  outline: 2px solid var(--brand-pink);
+  outline-offset: 2px;
+}
+
+/* Real-world consumer product card & button surfaces */
+.vira-card {
+  background-color: var(--surface-white);
+  border: 1px solid var(--border-rose);
+  border-radius: 18px;
+  box-shadow: 0 4px 20px -2px rgba(43, 27, 33, 0.05),
+    0 1px 4px rgba(43, 27, 33, 0.03);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, box-shadow;
+}
+
+.vira-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px -4px rgba(43, 27, 33, 0.08),
+    0 2px 6px rgba(43, 27, 33, 0.04);
+}
+
+.vira-btn-primary {
+  background-color: var(--brand-pink);
+  color: var(--surface-white);
+  border: 1px solid var(--brand-pink);
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(230, 74, 123, 0.25);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.2s ease;
+  will-change: transform;
+}
+
+.vira-btn-primary:hover {
+  transform: translateY(-1.5px);
+  box-shadow: 0 6px 18px rgba(230, 74, 123, 0.36);
+}
+
+.vira-btn-primary:active {
+  transform: translateY(0.5px) scale(0.985);
+  box-shadow: 0 2px 6px rgba(230, 74, 123, 0.22);
+}
+
+.vira-btn-secondary {
+  background-color: var(--surface-white);
+  color: var(--text-ink);
+  border: 1px solid var(--border-rose);
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: 0 1px 3px rgba(43, 27, 33, 0.04);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.vira-btn-secondary:hover {
+  background-color: var(--bg-blush-deep);
+  border-color: var(--brand-pink);
+  transform: translateY(-1.5px);
+  box-shadow: 0 4px 12px rgba(43, 27, 33, 0.06);
+}
+
+.vira-btn-secondary:active {
+  transform: translateY(0.5px) scale(0.985);
+}
+
+.vira-btn-danger {
+  background-color: var(--danger-red);
+  color: var(--surface-white);
+  border: 1px solid var(--danger-red);
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 14px;
+  box-shadow: 0 2px 10px rgba(217, 30, 63, 0.28);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.vira-btn-danger:hover {
+  transform: translateY(-1.5px);
+  box-shadow: 0 6px 18px rgba(217, 30, 63, 0.38);
+}
+
+.vira-btn-danger:active {
+  transform: translateY(0.5px) scale(0.985);
+}
+
+/* Smooth Tab & Feature Shifting Transitions */
+.tab-shift-enter {
+  opacity: 0;
+  transform: translateY(6px);
+  animation: tabShiftEnter 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes tabShiftEnter {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Subtle Smooth Ripple / Fade for Active Filters */
+.smooth-filter-pill {
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.smooth-filter-pill:hover {
+  transform: translateY(-1px);
+}
+.smooth-filter-pill:active {
+  transform: scale(0.97);
+}
+
+.vira-btn-danger:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(217, 30, 63, 0.38);
+}
+
+/* Hide scrollbars cleanly in horizontal pill bars */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Mobile App Viewport Adaptation (ensures 430px Mobile Preview renders single-column native layout) */
+.vira-mobile-viewport .grid {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+
+.vira-mobile-viewport .lg\:col-span-7,
+.vira-mobile-viewport .lg\:col-span-5,
+.vira-mobile-viewport .lg\:col-span-8,
+.vira-mobile-viewport .lg\:col-span-4,
+.vira-mobile-viewport .lg\:col-span-12,
+.vira-mobile-viewport .sm\:col-span-5,
+.vira-mobile-viewport .sm\:col-span-7 {
+  grid-column: span 1 / span 1 !important;
+}
+
+.vira-mobile-viewport h1 {
+  font-size: 1.35rem !important;
+  line-height: 1.3 !important;
+}
+
+/* Slow, readable full-screen SOS pulse */
+@keyframes viraSlowSosPulse {
+  0%,
+  100% {
+    background-color: var(--bg-blush-light);
+  }
+  50% {
+    background-color: var(--bg-blush-deep);
+  }
+}
+
+.vira-sos-pulse-bg {
+  animation: viraSlowSosPulse 4s ease-in-out infinite;
+}
+
+/* Siren SVG animations */
+@keyframes sirenSweep {
+  0%,
+  100% {
+    transform: translateX(-3px);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateX(3px);
+    opacity: 1;
+  }
+}
+
+@keyframes sirenRingExpandA {
+  0% {
+    transform: scale(0.88);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(1.25);
+    opacity: 0;
+  }
+}
+
+@keyframes sirenRingExpandB {
+  0% {
+    transform: scale(0.92);
+    opacity: 0.65;
+  }
+  100% {
+    transform: scale(1.38);
+    opacity: 0;
+  }
+}
+
+.siren-sweep-idle {
+  animation: sirenSweep 3.6s ease-in-out infinite;
+  transform-origin: center;
+}
+
+.siren-sweep-active {
+  animation: sirenSweep 1.2s ease-in-out infinite;
+  transform-origin: center;
+}
+
+.siren-ring-a-idle {
+  animation: sirenRingExpandA 4s ease-out infinite;
+  transform-origin: center;
+}
+
+.siren-ring-b-idle {
+  animation: sirenRingExpandB 4s ease-out 2s infinite;
+  transform-origin: center;
+}
+
+.siren-ring-a-active {
+  animation: sirenRingExpandA 1.5s ease-out infinite;
+  transform-origin: center;
+}
+
+.siren-ring-b-active {
+  animation: sirenRingExpandB 1.5s ease-out 0.75s infinite;
+  transform-origin: center;
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Leaflet map container overrides to guarantee visible New Delhi tiles & markers */
+.leaflet-container {
+  font-family: var(--font-inter), Inter, system-ui, sans-serif !important;
+  background-color: #f4efe6 !important;
+  width: 100%;
+  min-height: 460px;
+  z-index: 1;
+}
+
+.leaflet-container img.leaflet-tile {
+  max-width: none !important;
+  max-height: none !important;
+  width: 256px !important;
+  height: 256px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.leaflet-pane,
+.leaflet-tile,
+.leaflet-marker-icon,
+.leaflet-marker-shadow,
+.leaflet-tile-container,
+.leaflet-pane > svg,
+.leaflet-pane > canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.vira-custom-zone-marker,
+.vira-safe-haven-marker,
+.vira-copilot-stop-marker {
+  background: transparent !important;
+  border: none !important;
+}
+
+.leaflet-popup-content-wrapper {
+  background-color: var(--surface-white) !important;
+  color: var(--text-ink) !important;
+  border: 1px solid var(--border-rose) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 8px 24px rgba(43, 27, 33, 0.14) !important;
+  padding: 2px !important;
+}
+
+.leaflet-popup-content {
+  margin: 8px 10px !important;
+}
+
+.leaflet-popup-tip {
+  background-color: var(--surface-white) !important;
+}

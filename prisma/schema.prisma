@@ -1,0 +1,158 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                  String   @id @default(cuid())
+  name                String
+  email               String   @unique
+  passwordHash        String
+  role                String   @default("USER") // USER | ADMIN
+  phone               String   @default("+91 98765 43210")
+  privacySettingsJson String   @default("{\"autoDeleteHours\":24,\"anonymousDefault\":true,\"saveViraTranscripts\":false,\"shareAuditLog\":true}")
+  createdAt           DateTime @default(now())
+
+  trustedContacts     TrustedContact[]
+  evidenceRecords     EvidenceRecord[]
+  savedJourneys       SavedJourneyPlan[]
+  communityReviews    CommunityReview[]
+}
+
+model AreaZone {
+  id                         String   @id @default(cuid())
+  slug                       String   @unique
+  name                       String
+  corridorName               String
+  city                       String
+  district                   String
+  summary                    String
+  centerLat                  Float
+  centerLng                  Float
+  radiusMeters               Int
+  polygonJson                String   // JSON array of [lat, lng] road segment or zone vertices
+  lightingScore              Int      // 0-100 (higher = better lit)
+  footfallScore              Int      // 0-100 (higher = busier/more active)
+  cctvCoverage               Int      // 0-100
+  nearestPoliceName          String
+  nearestPoliceDistM         Int
+  nearestHospitalName        String
+  nearestHospitalDistM       Int
+  nearestTransitName         String
+  nearestTransitDistM        Int
+  peakRiskHours              String   // e.g. "21:00 - 02:00"
+  totalReports               Int
+  corroboratedReports        Int
+  verifiedReports            Int
+  baseSeverity               Int      // 0-100 base incident severity
+  recentIncidentDaysAgo      Int      // days since last verified incident
+  recentIncidentsSummaryJson String   // JSON array of plain-language verified incident summaries
+  patrolRecommendation       String
+  updatedAt                  DateTime @updatedAt
+}
+
+model SafeHaven {
+  id           String  @id @default(cuid())
+  name         String
+  category     String  // POLICE_BOOTH | HOSPITAL | METRO_STATION | VERIFIED_BUSINESS | HELP_DESK
+  areaSlug     String
+  placeName    String
+  address      String
+  lat          Float
+  lng          Float
+  openHours    String
+  contactPhone String
+  is24x7       Boolean @default(true)
+  verified     Boolean @default(true)
+  distanceText String  @default("250 m away")
+}
+
+model CommunityReview {
+  id                   String   @id @default(cuid())
+  areaSlug             String
+  placeName            String
+  userId               String?
+  authorName           String
+  isAnonymous          Boolean  @default(true)
+  rating               Int      // 1-5 overall safety rating
+  lightingRating       Int      // 1-5
+  crowdRating          Int      // 1-5
+  comment              String
+  tagsJson             String   @default("[]")
+  timeWindow           String   @default("20:00 - 22:00")
+  moderationConfidence Int      @default(92)
+  corroborations       Int      @default(4)
+  createdAt            DateTime @default(now())
+
+  user                 User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+}
+
+model SafetyAlert {
+  id             String   @id @default(cuid())
+  title          String
+  description    String
+  areaSlug       String
+  placeName      String
+  riskLevel      String   // LOW | CAUTION | ELEVATED | HIGH | ACTIVE_INCIDENT
+  category       String   // LIGHTING_OUTAGE | CROWD_DROP | VERIFIED_REPORT | PATROL_DISPATCH | ADVISORY
+  source         String   // COMMUNITY | ADMIN_BROADCAST | AI_PREDICTION | PATROL_UNIT
+  targetAudience String   @default("ALL") // ALL | POLICE | MUNICIPAL | UNIVERSITY
+  whyReason      String
+  activeUntil    String   @default("02:00 AM")
+  createdAt      DateTime @default(now())
+}
+
+model TrustedContact {
+  id                     String   @id @default(cuid())
+  userId                 String
+  name                   String
+  relationship           String
+  phone                  String
+  email                  String
+  consentWhen            String   @default("MANUAL") // MANUAL | NIGHT_ONLY | HIGH_RISK_ZONE | SOS_ONLY
+  consentWhatJson        String   @default("{\"location\":true,\"route\":true,\"eta\":true,\"status\":true}")
+  consentDurationMinutes Int      @default(45)
+  isActive               Boolean  @default(true)
+  currentlySharing       Boolean  @default(false)
+  createdAt              DateTime @default(now())
+
+  user                   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model EvidenceRecord {
+  id             String   @id @default(cuid())
+  userId         String
+  sequenceNumber Int
+  eventType      String   // SOS_TRIGGERED | SILENT_SOS | ROUTE_DEVIATION | MISSED_CHECKIN | SAFE_CHECKIN | DISTRESS_DETECTED | TRUSTED_CIRCLE_NOTIFIED
+  placeName      String
+  summary        String
+  detailsJson    String
+  timestampIso   String
+  prevHash       String
+  currentHash    String
+  createdAt      DateTime @default(now())
+
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model SavedJourneyPlan {
+  id                 String   @id @default(cuid())
+  userId             String
+  startPlaceName     String
+  destPlaceName      String
+  departureTime      String
+  travelMode         String
+  preference         String
+  selectedRouteType  String
+  safetyScore        Int
+  etaMinutes         Int
+  distanceKm         Float
+  explanationSummary String
+  createdAt          DateTime @default(now())
+
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
